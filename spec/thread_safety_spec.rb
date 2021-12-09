@@ -13,7 +13,7 @@ RSpec.describe "thread safety" do # rubocop:disable RSpec/DescribeClass
     # Using `def` here makes race conditions far more likely than `let`.
     def class_with_memo
       Class.new do
-        prepend MemoWise
+        extend MemoWise
 
         def current_thread_id
           Thread.pass              # trigger a race condition even on MRI
