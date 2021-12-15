@@ -268,7 +268,8 @@ end.each_with_index do |benchmark_json, i|
       # We use this mapping to get a header of the form
       # "`MemoWise` (1.1.0)
       gem_name_parts = benchmark_gem["name"].split
-      "`#{gem_name_parts[0]}` #{gem_name_parts[1][...-1]}"
+      asterisk = "\\*" if gem_name_parts[0] == "Dry::Core"
+      "`#{gem_name_parts[0]}`#{asterisk} #{gem_name_parts[1][...-1]}"
     end.join("|")
     puts "|Method arguments|#{benchmark_headers}|"
     puts "#{'|--' * (benchmark_json.size + 1)}|"
