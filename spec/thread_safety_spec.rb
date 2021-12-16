@@ -5,9 +5,9 @@ RSpec.describe "thread safety" do # rubocop:disable RSpec/DescribeClass
     let(:thread_return_values) do
       check_repeatedly(condition_proc: condition_to_check) do
         @instance = class_with_memo(args_str).new
-        @instance.current_thread_id(*other_args) unless other_args.empty?
+        @instance.current_thread_id(**other_args) unless other_args.empty?
         args # This needs to be called here to initialize it so the thread can use it.
-        threads = Array.new(2) { Thread.new { @instance.current_thread_id(*args) } } # rubocop:disable RSpec/InstanceVariable
+        threads = Array.new(2) { Thread.new { @instance.current_thread_id(**args) } } # rubocop:disable RSpec/InstanceVariable
         threads.map(&:value)
       end
     end
@@ -140,16 +140,16 @@ RSpec.describe "thread safety" do # rubocop:disable RSpec/DescribeClass
 
   context "when the method takes multiple keyword arguments" do
     let(:args_str) { "a:, b:" }
-    let(:args) { [{ a: 1, b: 2 }] }
+    let(:args) { { a: 1, b: 2 } }
 
     context "when the method has already been called with other arguments" do
-      let(:other_args) { [{ a: 3, b: 4 }] }
+      let(:other_args) { { a: 3, b: 4 } }
 
       it_behaves_like "provides thread safety guarantees"
     end
 
     context "when the method has never been called" do
-      let(:other_args) { [] }
+      let(:other_args) { {} }
 
       it_behaves_like "provides thread safety guarantees"
     end
