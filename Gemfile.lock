@@ -95,7 +95,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.1.0)
     values (1.8.0)
-    yard (0.9.26)
+    yard (0.9.35)
     yard-doctest (0.1.17)
       minitest
       yard
